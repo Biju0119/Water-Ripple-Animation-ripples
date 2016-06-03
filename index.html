@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>jQuery WebGL Ripples</title>
+<style>
+* { margin: 0; padding: 0; }
+html {
+	height: 100%;
+}
+.box {
+
+	background-image: url(img/bg2.jpg);
+	background-size: cover;
+	height: 900px;
+	
+}
+
+
+</style>
+</head>
+<body>
+
+
+
+<div class="box"></div>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="js/jquery.ripples.js"></script>
+<script>
+$(document).ready(function() {
+	try {
+		$('.box').ripples({
+			resolution: 512,
+			dropRadius: 20, //px
+			perturbance: 0.04,
+		});
+		$('.box').ripples({
+			resolution: 128,
+			dropRadius: 10, //px
+			perturbance: 0.04,
+			interactive: false
+		});
+	}
+	catch (e) {
+		$('.error').show().text(e);
+	}
+
+	$('.js-ripples-disable').on('click', function() {
+		$('.box').ripples('destroy');
+		$(this).hide();
+	});
+
+	$('.js-ripples-play').on('click', function() {
+		$('.box').ripples('play');
+	});
+
+	$('.js-ripples-pause').on('click', function() {
+		$('.box').ripples('pause');
+	});
+
+	// Automatic drops
+	setInterval(function() {
+		var $el = $('.box');
+		var x = Math.random() * $el.outerWidth();
+		var y = Math.random() * $el.outerHeight();
+		var dropRadius = 20;
+		var strength = 0.04 + Math.random() * 0.04;
+
+		$el.ripples('drop', x, y, dropRadius, strength);
+	}, 400);
+});
+</script>
+</body>
+</html>
